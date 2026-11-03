@@ -9,10 +9,14 @@ tcp() { timeout 5 bash -c "</dev/tcp/$1/$2" >/dev/null 2>&1; }
 
 row INFO os "$(. /etc/os-release 2>/dev/null; echo "${PRETTY_NAME:-unknown}") $(uname -m)"
 row INFO resources "cpus=$(nproc) mem=$(awk '/MemTotal/{printf "%.1fGiB", $2/1048576}' /proc/meminfo) disk=$(df -h . | awk 'NR==2{print $4}') free"
-if sudo -n true 2>/dev/null; then row PASS sudo "passwordless"; else row WARN sudo "unavailable: setup.sh uses user-space Xvfb"; fi
+if [ "$(id -u)" = 0 ]; then row PASS sudo "running as root"
+elif sudo -n true 2>/dev/null; then row PASS sudo "passwordless"; else row WARN sudo "unavailable: setup.sh uses user-space Xvfb"; fi
 has apt-get && row PASS apt-get "present" || row WARN apt-get "missing"
 
-if has node && [ "$(node -p 'process.versions.node.split(".")[0]')" = 22 ]; then row PASS node "$(node -v)"; else row FAIL node "Node.js 22 required ($(node -v 2>/dev/null || echo missing))"; fi
+node_major=$(node -p 'process.versions.node.split(".")[0]' 2>/dev/null || echo 0)
+if [ "$node_major" = 22 ]; then row PASS node "$(node -v)"
+elif [ "$node_major" -gt 22 ]; then row WARN node "$(node -v): project targets 22 (npm warns EBADENGINE; tests/build passed on 24)"
+else row FAIL node "Node.js 22 required ($(node -v 2>/dev/null || echo missing))"; fi
 has npm && row PASS npm "$(npm -v)" || row FAIL npm "missing"
 if has google-chrome; then row PASS chrome "$(google-chrome --version)"
 elif ls ~/.cache/ms-playwright/chromium-* >/dev/null 2>&1; then row PASS chrome "Playwright Chromium"

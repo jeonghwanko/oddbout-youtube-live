@@ -33,7 +33,7 @@ Environment: `LIVE_DISPLAY` (default `:99`), `LIVE_PORT` (default `5178`, so sto
 
 ## Local verification
 
-2026-11-03, Ubuntu 24.04, no sudo (user-space Xvfb), Chrome 151, OBS 32.2.0 (Mesa llvmpipe renderer, x264): `run.sh --record=150 --cups=1` recorded a 135.6 s 1920×1080 30 fps H.264 + AAC file covering both semifinals, the final, and the champion card (seed 2115739349, digests `7b7934fe`/`237264ac`/`23e16d95`, cup wall time 141.9 s). `--encoder=ffmpeg --record=40` produced a 40.0 s file of the same format. No stream key was used and nothing was sent to YouTube; audio was a silent track because `pactl` was absent.
+2026-11-03, Ubuntu 24.04, no sudo (user-space Xvfb), Chrome 151, OBS 32.2.0 (Mesa llvmpipe renderer, x264): `run.sh --record=150 --cups=1` recorded a 135.6 s 1920×1080 30 fps H.264 + AAC file covering both semifinals, the final, and the champion card (seed 2115739349, digests `7b7934fe`/`237264ac`/`23e16d95`, cup wall time 141.9 s). `--encoder=ffmpeg --record=40` produced a 40.0 s file of the same format, on Node 22 and again on Node 24.22.2 (`npm ci` warns EBADENGINE; tests and build pass). Without `obs` on the PATH, `run.sh` switches to ffmpeg. No stream key was used and nothing was sent to YouTube; audio was a silent track because `pactl` was absent.
 
 ## Limits
 

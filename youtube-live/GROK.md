@@ -22,17 +22,18 @@
    youtube-live/setup.sh          # 마지막 RESULT 줄을 보고
    ```
    `rtmps-443`이나 `background`가 FAIL이면 이 환경에서는 송출할 수 없다. 이유와 함께 멈춘다.
+   `node`(22가 아닌 버전), `obs`, `audio`, `sudo`가 WARN인 것은 괜찮다. OBS가 없으면 run.sh가 ffmpeg로 송출한다.
 3. 키 없이 리허설 (약 3분, 녹화만)
    ```sh
    youtube-live/run.sh --record=170 --cups=1
    ls -la youtube-live/recordings/
    ffmpeg -v error -ss 120 -i youtube-live/recordings/*.mkv -frames:v 1 youtube-live/recordings/check.png
    ```
-   runner 로그의 `"event":"cup"` 줄(우승자·digest)과 녹화 파일 크기를 보고하고, 가능하면 `check.png`를 보여준다. OBS가 바로 종료되면 `--encoder=ffmpeg`로 다시 시도하고 둘 중 어느 쪽이 됐는지 보고한다.
+   runner 로그의 `"event":"cup"` 줄(우승자·digest)과 녹화 파일 크기를 보고하고, 가능하면 `check.png`를 보여준다. 로그 첫 부분의 `obs recording` 또는 `ffmpeg recording` 줄로 어떤 encoder를 썼는지 보고한다. OBS가 설치돼 있는데 바로 종료되면 `--encoder=ffmpeg`로 다시 시도한다.
 4. 공개 송출 ("송출 시작" 지시 후에만)
    ```sh
    export YOUTUBE_STREAM_KEY='<내가 따로 전달한 키>'
-   youtube-live/run.sh                     # 또는 --encoder=ffmpeg (3단계에서 성공한 쪽)
+   youtube-live/run.sh                     # 3단계에서 --encoder=ffmpeg로 성공했다면 같은 옵션을 붙인다
    ```
    송출은 내가 멈추라고 할 때까지 유지한다. 실행 시간 제한이나 네트워크 차단으로 끊기면 끊긴 시각과 마지막 로그를 보고한다. 종료는 Ctrl-C(SIGINT)로 한다.
 

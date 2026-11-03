@@ -19,6 +19,7 @@ for arg in "$@"; do
   esac
 done
 [ "$encoder" = obs ] || [ "$encoder" = ffmpeg ] || { echo "--encoder must be obs or ffmpeg" >&2; exit 2; }
+if [ "$encoder" = obs ] && ! command -v obs >/dev/null; then echo "obs not found; using ffmpeg"; encoder=ffmpeg; fi
 if [ "$mode" = stream ] && [ -z "${YOUTUBE_STREAM_KEY:-}" ]; then echo "YOUTUBE_STREAM_KEY is not set (use --record to rehearse)" >&2; exit 2; fi
 [ -d dist ] || { echo "dist/ missing: run youtube-live/setup.sh" >&2; exit 2; }
 
