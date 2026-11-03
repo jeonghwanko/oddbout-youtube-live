@@ -8,13 +8,12 @@
 
 규칙:
 - `YOUTUBE_STREAM_KEY` 값을 출력·로그·파일·대화에 절대 쓰지 않는다. `set -x`, `env`, `printenv`를 실행하지 않는다.
-- GitHub 토큰도 출력하지 않는다.
 - 저장소 코드를 수정하지 않는다. 시스템 설치는 `youtube-live/setup.sh`만 사용한다.
 - 4단계(공개 송출)는 내가 "송출 시작"이라고 말하기 전에는 실행하지 않는다.
 
-1. 저장소 가져오기 (private 저장소이므로 내가 준 읽기 전용 토큰 사용)
+1. 저장소 가져오기 (공개 저장소)
    ```sh
-   git clone https://x-access-token:${GH_TOKEN}@github.com/jeonghwanko/oddbout-youtube-live.git
+   git clone https://github.com/jeonghwanko/oddbout-youtube-live.git
    cd oddbout-youtube-live
    ```
 2. 환경 점검과 준비
