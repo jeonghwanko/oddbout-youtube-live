@@ -6,3 +6,5 @@ dist/
 *.tsbuildinfo
 first-bout-report*.jsonl
 browser-report/
+youtube-live/.local/
+youtube-live/recordings/

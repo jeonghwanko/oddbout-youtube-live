@@ -72,6 +72,10 @@ The returned promise contains `{ protocolVersion: 1, jobId, leaseToken, seed, wi
 
 Only validated origin, iframe source/document, attempt ID, pairing, seed, and result messages advance the bracket. An iframe document replacement during a cup rejects the job before replaying a start token. Readiness is not victory; errors/timeouts reject without producing a champion. Job and lease identifiers are not shown on stream. Keep credentials, wallet logic, and paid-job authorization in the runner/backend; this browser API is an exhibition renderer, not an authorization boundary. Keep the browser visible and prevent host sleep during execution.
 
+### YouTube Live (experimental)
+
+[`youtube-live/`](youtube-live/README.md) streams this exhibition page to YouTube Live from a headless Linux host: Xvfb shows the page, a Playwright runner calls `runCup` cup after cup, and OBS or ffmpeg sends the display to YouTube over RTMPS. The stream key comes only from `YOUTUBE_STREAM_KEY`. Run `youtube-live/run.sh --record=170 --cups=1` to rehearse without a key.
+
 ## Connect Twitch
 
 1. Create an app in the [Twitch developer console](https://dev.twitch.tv/console/apps).
